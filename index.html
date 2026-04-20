@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Carteira</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#f2f2f7" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Carteira" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f2f2f7;
+      --white: #ffffff;
+      --text-primary: #000000;
+      --text-secondary: #6c6c70;
+      --text-tertiary: #8e8e93;
+      --separator: #c6c6c8;
+      --blue: #007aff;
+      --card-bg: #ffffff;
+      --tab-active: #000000;
+      --tab-inactive: #8e8e93;
+      --section-header: #6c6c70;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      -webkit-user-select: none;
+      user-select: none;
+      overflow: hidden;
+    }
+
+    .screen {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      height: 100dvh;
+    }
+
+    /* STATUS BAR AREA */
+    .status-bar-space {
+      height: env(safe-area-inset-top, 44px);
+      background: var(--white);
+      flex-shrink: 0;
+    }
+
+    /* NAVIGATION BAR */
+    .nav-bar {
+      background: var(--white);
+      border-bottom: 0.5px solid var(--separator);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 0 16px 12px;
+      height: 44px;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .nav-title {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.4px;
+    }
+
+    /* SCROLL CONTENT */
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 20px 16px;
+      padding-bottom: 16px;
+    }
+
+    /* SECTION HEADER */
+    .section-label {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--section-header);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      padding-left: 4px;
+    }
+
+    /* CARD ITEM */
+    .card-item {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      transition: opacity 0.15s;
+      margin-bottom: 12px;
+    }
+
+    .card-item:active { opacity: 0.6; }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Ícone RG — bandeira de São Paulo estilizada */
+    .rg-icon {
+      width: 40px;
+      height: 40px;
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .card-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .card-type {
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-weight: 400;
+      margin-bottom: 3px;
+    }
+
+    .card-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-number {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    .card-chevron {
+      color: var(--text-tertiary);
+      font-size: 18px;
+      flex-shrink: 0;
+      opacity: 0.5;
+    }
+
+    /* BOTÃO ADICIONAR */
+    .btn-add {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 15px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      border: none;
+      width: 100%;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      margin-top: 4px;
+      transition: opacity 0.15s;
+    }
+
+    .btn-add:active { opacity: 0.6; }
+
+    .btn-add span {
+      font-size: 16px;
+      color: var(--blue);
+      font-weight: 400;
+    }
+
+    /* TAB BAR */
+    .tab-bar {
+      background: rgba(242,242,247,0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 0.5px solid var(--separator);
+      display: flex;
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      flex-shrink: 0;
+    }
+
+    .tab-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 8px 0 4px;
+      gap: 3px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .tab-icon {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tab-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .tab-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.1px;
+    }
+
+    .tab-item.active .tab-label { color: var(--tab-active); }
+    .tab-item.active svg { stroke: var(--tab-active); fill: none; }
+    .tab-item.active .tab-icon-filled { fill: var(--tab-active); stroke: none; }
+
+    .tab-item:not(.active) .tab-label { color: var(--tab-inactive); }
+    .tab-item:not(.active) svg { stroke: var(--tab-inactive); fill: none; }
+    .tab-item:not(.active) .tab-icon-filled { fill: var(--tab-inactive); stroke: none; }
+  </style>
+</head>
+<body>
+<div class="screen">
+
+  <!-- Espaço status bar iOS -->
+  <div class="status-bar-space"></div>
+
+  <!-- Navigation Bar -->
+  <nav class="nav-bar">
+    <span class="nav-title">Carteira</span>
+  </nav>
+
+  <!-- Conteúdo -->
+  <main class="content">
+    <div class="section-label">Válidas</div>
+
+    <!-- Card RG -->
+    <div class="card-item" id="card-rg" role="button" aria-label="Abrir RG">
+      <div class="rg-icon">
+        <!-- Bandeira SP simplificada -->
+        <svg width="36" height="28" viewBox="0 0 36 28" xmlns="http://www.w3.org/2000/svg">
+          <rect width="36" height="28" fill="#fff"/>
+          <!-- listras horizontais -->
+          <rect y="0" width="36" height="9.33" fill="#000"/>
+          <rect y="9.33" width="36" height="9.33" fill="#fff"/>
+          <rect y="18.66" width="36" height="9.34" fill="#e63329"/>
+          <!-- brasão central simples -->
+          <circle cx="18" cy="14" r="5" fill="none" stroke="#888" stroke-width="0.8"/>
+          <text x="18" y="17.5" text-anchor="middle" font-size="6" fill="#888" font-family="Arial">SP</text>
+        </svg>
+      </div>
+      <div class="card-info">
+        <div class="card-type">RG - Registro Geral</div>
+        <div class="card-name">ENRICO MAMPRIN EPOF</div>
+        <div class="card-number">Número: 53.400.449-0</div>
+      </div>
+      <div class="card-chevron">
+        <svg width="9" height="15" viewBox="0 0 9 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1L8 7.5L1 14" stroke="#c7c7cc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Botão adicionar -->
+    <button class="btn-add" aria-label="Adicionar carteira">
+      <span>+ Adicionar carteira</span>
+    </button>
+  </main>
+
+  <!-- Tab Bar -->
+  <nav class="tab-bar">
+    <div class="tab-item active">
+      <div class="tab-icon">
+        <svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="5" width="20" height="14" rx="2" class="tab-icon-filled"/>
+          <line x1="2" y1="10" x2="22" y2="10" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <span class="tab-label">Carteira</span>
+    </div>
+    <div class="tab-item">
+      <div class="tab-icon">
+        <svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9.568 3H5a2 2 0 00-2 2v4c0 1.025.386 1.953 1.017 2.649M15 3h4.432a2 2 0 012 2v4a3.627 3.627 0 01-1.017 2.649m0 0a3.629 3.629 0 01-2.634 1.101H7.2a3.629 3.629 0 01-2.634-1.1m0 0L3 13.65V19a2 2 0 002 2h14a2 2 0 002-2v-5.35l-1.566-1"/>
+        </svg>
+      </div>
+      <span class="tab-label">Serviços</span>
+    </div>
+    <div class="tab-item">
+      <div class="tab-icon">
+        <svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </div>
+      <span class="tab-label">Opções</span>
+    </div>
+  </nav>
+
+</div>
+
+<script>
+  // Navega para a carteirinha ao clicar no card
+  document.getElementById('card-rg').addEventListener('click', function() {
+    location.assign('pagina2.html');
+  });
+
+  // Service Worker para PWA
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  }
+</script>
+</body>
+</html>
