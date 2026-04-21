@@ -299,9 +299,9 @@
               <div class="qr-box">
                 <img class="qr-image" src="qrcode.jpeg" alt="QR Code" draggable="false" />
                 <div class="qr-timer-bar">
-                  <div class="qr-timer-fill" id="qr-fill" style="width:100%"></div>
+                  <div class="qr-timer-fill" id="qr-fill" style="width:0%"></div>
                 </div>
-                <div class="qr-timer-text" id="qr-timer">00 : 30</div>
+                <div class="qr-timer-text" id="qr-timer">00 : 59</div>
               </div>
               <div class="qr-info">
                 <div class="qr-info-icon">
@@ -386,15 +386,15 @@
     }, { passive: true });
 
     let qrInterval = null;
-    let qrSeconds = 30;
+    let qrSeconds = 59;
 
     function startQrTimer() {
       if (qrInterval) return;
-      qrSeconds = 30;
+      qrSeconds = 59;
       updateQrDisplay();
       qrInterval = setInterval(function () {
         qrSeconds--;
-        if (qrSeconds < 0) qrSeconds = 30;
+        if (qrSeconds < 0) qrSeconds = 59;
         updateQrDisplay();
       }, 1000);
     }
@@ -402,7 +402,7 @@
     function updateQrDisplay() {
       const fill = document.getElementById('qr-fill');
       const timer = document.getElementById('qr-timer');
-      if (fill) fill.style.width = (qrSeconds / 30 * 100) + '%';
+      if (fill) fill.style.width = ((59 - qrSeconds) / 59 * 100) + '%';
       if (timer) timer.textContent = '00 : ' + two(qrSeconds);
     }
 
