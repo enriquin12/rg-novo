@@ -57,18 +57,14 @@
       padding-top: calc(env(safe-area-inset-top, 0px) + 12px);
     }
 
-    .segment-bar {
-      margin: 10px 0 0;
-      background: #ffffff;
-      display: flex;
-      border-top: 0.5px solid rgba(0,0,0,0.08);
-      border-bottom: 0.5px solid rgba(0,0,0,0.08);
-      border-radius: 0;
-      box-shadow: none;
-      flex-shrink: 0;
-      overflow: hidden;
-      width: 100%;
-    }
+   .segment-bar {
+  background: var(--white);
+  display: flex;
+  border-bottom: 0.5px solid var(--separator);
+  flex-shrink: 0;
+  width: 100%;
+  margin-top: 12px; /* ↓ controla aqui (desce as tabs) */
+}
 
     .seg-tab {
       flex: 1;
@@ -93,14 +89,14 @@
     }
 
     .content-area {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      background: transparent;
-      margin-top: 6px;
-    }
-
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg);
+  padding-top: 4px; /* ↓ reduz espaço acima → carrossel sobe */
+}
+    
     .carousel-outer {
       flex: 1;
       overflow: hidden;
@@ -115,15 +111,15 @@
     }
 
     .carousel-slide {
-      flex-shrink: 0;
-      width: 100vw;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px 16px;
-    }
-
+  flex-shrink: 0;
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px; /* ↓ menor padding → sobe visualmente */
+}
+    
     .card-img {
       max-width: 94%;
       max-height: 92%;
@@ -223,14 +219,14 @@
       line-height: 1.4;
     }
 
-    .timestamp-bar {
-      padding: 8px 16px 10px;
-      text-align: center;
-      font-size: 13px;
-      color: var(--text-secondary);
-      background: var(--bg);
-      flex-shrink: 0;
-    }
+.timestamp-bar {
+  padding: 6px 16px 12px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-secondary);
+  background: var(--bg);
+  margin-top: 4px; /* ↓ aproxima do carrossel */
+}
 
     .landscape-lock {
       position: fixed;
