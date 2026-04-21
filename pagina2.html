@@ -66,9 +66,33 @@
       z-index: 10;
     }
 
-    /* Removido o texto "Frente / Verso / QR Code" */
+    /* TABS (Frente / Verso / QR Code) */
     .segment-bar {
-      display: none;
+      background: var(--white);
+      display: flex;
+      border-bottom: 0.5px solid var(--separator);
+      flex-shrink: 0;
+      padding: 0 16px;
+    }
+
+    .seg-tab {
+      flex: 1;
+      text-align: center;
+      padding: 10px 4px;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--text-tertiary);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+      letter-spacing: -0.1px;
+    }
+
+    .seg-tab.active {
+      color: var(--text-primary);
+      font-weight: 600;
+      border-bottom-color: var(--text-primary);
     }
 
     .carousel-outer {
